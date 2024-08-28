@@ -18,11 +18,10 @@ const searchPosts = async (req, res) => {
         });
 
         if (cat) {
-            console.log("cat: ", cat);
             category = cat._id;
             const posts = await Post.find({ category })
                 .populate('category', 'name')
-                .populate('createdBy', 'username');
+                .populate('createdBy', ['username', 'avatar'])
             return res.status(200).json(posts);
         }
 
@@ -33,7 +32,7 @@ const searchPosts = async (req, res) => {
             }
         })
             .populate('category', 'name')
-            .populate('createdBy', 'username');
+            .populate('createdBy', ['username', 'avatar']);
 
         return res.status(200).json(posts);
     } catch (error) {
